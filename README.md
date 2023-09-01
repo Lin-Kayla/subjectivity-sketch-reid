@@ -3,7 +3,9 @@
 <p align="center">Kejun Lin, Zhixiang Wang, Zheng Wang, Yinqiang Zheng, Shin'ichi Satoh
 </p>
 
-![teaser](./assets/teaser.jpg)
+<div align="center">
+<img src="./assets/teaser.jpg" width=300px alt="teaser"></image>
+</div>
 
 ## Dataset
 
