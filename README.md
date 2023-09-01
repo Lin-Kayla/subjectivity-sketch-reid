@@ -1,14 +1,22 @@
-# subjectivity-sketch-reid
+<h2 align="center">Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based Person Retrieval
+</h2>
+<p align="center">Kejun Lin, Zhixiang Wang, Zheng Wang, Yinqiang Zheng, Shin'ichi Satoh
+</p>
 
-here's the respository of paper "Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based
-Person Retrieval".
+![teaser](./assets/teaser.jpg)
 
 ## Dataset
 
-## requirements
+The dataset is available <a href="https://drive.google.com/drive/folders/1XjFPM1yVHpE38sSDTFgM5s9aX2r-oYRC?usp=sharing">here</a>.
 
 ## training
+TODO
 
 ## Evaluation
+TODO
+
+## Acknowledgements
+TODO
 
 ## citation
+TODO
