@@ -11,13 +11,7 @@
 
 Our proposed MaSk1K (Short for <u>Ma</u>rket-<u>Sk</u>etch-<u>1K</u>) is available <a href="https://drive.google.com/drive/folders/1XjFPM1yVHpE38sSDTFgM5s9aX2r-oYRC?usp=sharing">here</a>.
 
-TODO
-
-Our annotated attributes for PKU-Sketch is available <a href="">here</a>.
-
-Download the dataset and PKU-Sketch attributes into your \<data_root\>.
-
-Download the dataset and Market1501 attributes from <a href="">here</a>, and put it into your <data_root>.
+Download the dataset and Market1501 attributes from <a href="https://github.com/vana77/Market-1501_Attribute.git">here</a>, and put it into your \<data_root\>.
 
 ## Guide For Market-Sketch-1K
 ### requirements
@@ -53,8 +47,7 @@ python test.py --train_style <train_style> --test_style <test_style> -r <> [--te
  - `[--test_mq]` argument is used for enabling multi-query during testing.
 
 ## Acknowledgements
-TODO
-Our code was build on the amazing codebase <a href="">Cross-modal-Re-ID</a> and <a href="">CMAlign</a> and <a href="">CLIP</a>. 
+Our code was build on the amazing codebase <a href="https://github.com/mangye16/Cross-Modal-Re-ID-baseline.git">Cross-modal-Re-ID</a> and <a href="https://github.com/cvlab-yonsei/LbA.git">CMAlign</a> and <a href="https://github.com/openai/CLIP.git">CLIP</a>. 
 
 ## Citation
 TODO
