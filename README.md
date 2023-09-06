@@ -50,8 +50,6 @@ TODO
 <!--  python test.py [] -->
 <!-- ``` -->
 
-## Guide For PKU-Sketch
-TODO
 
 ## Acknowledgements
 TODO
