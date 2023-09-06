@@ -9,7 +9,7 @@
 
 ## Dataset
 
-Our proposed MaSk1K (Short for <u>Ma</u>rket-<u>Sk</u>etch-<u>1K</u>) is available <a href="https://drive.google.com/drive/folders/1XjFPM1yVHpE38sSDTFgM5s9aX2r-oYRC?usp=sharing">here</a>.
+Our proposed MaSk1K (Short for <u>Ma</u>rket-<u>Sk</u>etch-<u>1K</u>) dataset is available <a href="https://drive.google.com/drive/folders/1XjFPM1yVHpE38sSDTFgM5s9aX2r-oYRC?usp=sharing">here</a>.
 
 Download the dataset and Market1501 attributes from <a href="https://github.com/vana77/Market-1501_Attribute.git">here</a>, and put it into your \<data_root\>.
 
