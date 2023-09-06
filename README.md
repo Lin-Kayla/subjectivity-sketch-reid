@@ -2,6 +2,8 @@
 </h2>
 <p align="center">Kejun Lin, Zhixiang Wang, Zheng Wang, Yinqiang Zheng, Shin'ichi Satoh
 </p>
+<p align="center">Accepted to ACMMM2023
+</p>
 
 <div align="center">
 <img src="./assets/teaser.jpg" width=300px alt="teaser"></image>
