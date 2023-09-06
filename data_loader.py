@@ -91,11 +91,11 @@ class PKUDataAttr(data.Dataset):
     def __init__(self, data_dir,  transform=None, colorIndex = None, thermalIndex = None):
         
         # Load training images (path) and labels
-        train_color_image = np.load(os.path.join(data_dir, 'train_rgb_resized_img.npy'))
-        self.train_color_label = np.load(os.path.join(data_dir, 'train_rgb_resized_label.npy'))
+        train_color_image = np.load(os.path.join(data_dir,'feature', 'train_rgb_img.npy'))
+        self.train_color_label = np.load(os.path.join(data_dir, 'feature', 'train_rgb_label.npy'))
 
-        train_sketch_image = np.load(os.path.join(data_dir, 'train_ir_resized_img.npy'))
-        self.train_sketch_label = np.load(os.path.join(data_dir, 'train_ir_resized_label.npy'))
+        train_sketch_image = np.load(os.path.join(data_dir, 'feature', 'train_sk_img.npy'))
+        self.train_sketch_label = np.load(os.path.join(data_dir, 'feature', 'train_sk_label.npy'))
         
         self.attribute= loadmat(os.path.join(data_dir, 'PKU_attribute_train.mat'))['data']
         

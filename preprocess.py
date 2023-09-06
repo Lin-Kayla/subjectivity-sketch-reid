@@ -9,32 +9,43 @@ from collections import defaultdict
 
 # args
 import argparse
-parser = argparse.ArgumentParser(description='args for preprocessing Market-Sketch-1K')
-parser.add_argument('--data_path', type=str, default='/data3/lkj/rebuttal_sketchreid/dataset/market-mix-cross', help='path to dataset, and where you store processed attributes')
-parser.add_argument('--attribute_path', type=str, default='/data3/lkj/rebuttal_sketchreid/dataset/market-mix-cross', help='path to Market1501\'s attribute')
+parser = argparse.ArgumentParser(description='args for preprocessing Market-Sketch-1K and PKU-Sketch')
+parser.add_argument('--dataset', type=str, default='mask1k', help='dataset name: mask1k (short for Market-Sketch-1K) or pku (short for PKU-Sketch)')
+parser.add_argument('--data_path', type=str, default='/data3/lkj/rebuttal_sketchreid/dataset/market-mix-cross', help='path to dataset, and where you store attributes')
 parser.add_argument('--image_width', type=int, default=144, help='image width')
 parser.add_argument('--image_height', type=int, default=288, help='image height')
 parser.add_argument('--train_style', type=str, default='A', help='styles: any combination of A-F. For example: B, EF, ACEF...')
 parser.add_argument('--train_mq', action='store_true', help='train with multi-query')
 args = parser.parse_args()
 
+assert not (args.train_mq and len(args.train_style)<=1)
+
+dataset = args.dataset
 data_path = args.data_path
-attribute_path = args.attribute_path
 fix_image_width = args.image_width
 fix_image_height = args.image_height
 
 # load files
-files_rgb = os.listdir(data_path+'/photo/train')
-files_sk = {s: os.listdir(f'{data_path}/sketch/{s}/train') for s in args.train_style}
-
-# relabel
-pid_container = set()
-for s in files_sk.keys():
-    files = files_sk[s]
-    for img_path in files:
-        pid = int(img_path[:4])
+if dataset == 'mask1k':
+    files_rgb = os.listdir(data_path+'/photo/train')
+    files_sk = {s: os.listdir(f'{data_path}/sketch/{s}/train') for s in args.train_style}
+    # relabel
+    pid_container = set()
+    for s in files_sk.keys():
+        files = files_sk[s]
+        for img_path in files:
+            pid = int(img_path[:4])
+            pid_container.add(pid)
+    pid2label = {pid:label for label, pid in enumerate(pid_container)}
+elif dataset == 'pku':
+    files_rgb = os.listdir(data_path+'/photo/train')
+    files_sk = os.listdir(data_path+'/sketch/train')
+    # relabel
+    pid_container = set()
+    for img_path in files_sk:
+        pid = int(img_path.split('.')[0])
         pid_container.add(pid)
-pid2label = {pid:label for label, pid in enumerate(pid_container)}
+    pid2label = {pid:label for label, pid in enumerate(pid_container)}
 
 # read photos
 def read_imgs_single(train_image, dir):
@@ -134,6 +145,31 @@ def read_sketch_multi(train_image, dir):
     
     return np.array(train_img), np.array(train_label).astype('int'), np.array(styles).astype('int')
 
+def read_imgs_pku(train_image, path_prefix, type='sketch'):
+    train_img = []
+    train_label = []
+    for img_path in train_image:
+        pid = img_path.split('.')[0] if type=='sketch' else img_path.split('_')[0]
+
+        # img
+        # print(img_path)
+        if not int(pid) in pid2label.keys():
+            continue
+        img = Image.open(path_prefix+'/'+img_path)
+        img = img.resize((fix_image_width, fix_image_height), Image.ANTIALIAS)
+        pix_array = np.array(img)
+        if len(pix_array.shape) == 2:
+            pix_array = cv2.cvtColor(pix_array,cv2.COLOR_GRAY2RGB)
+            
+        train_img.append(pix_array) 
+        
+        # label
+        pid = int(pid)
+        pid = pid2label[pid]
+        train_label.append(pid)
+    return np.array(train_img), np.array(train_label)
+  
+
 def read_attributes():
     tmp = [[],[]]
     names = ['gender', 'hair', 'up', 'down', 'clothes', 'hat', 'backpack', 'bag', 'handbag', 'age',\
@@ -141,7 +177,7 @@ def read_attributes():
         'downblack', 'downwhite', 'downpink', 'downpurple', 'downyellow', 'downgray', 'downblue', 'downgreen', 'downbrown']
 
     # save all attribute -> (1501, 27)
-    mat = loadmat(f'{attribute_path}/market_attribute.mat')['market_attribute']
+    mat = loadmat(f'{data_path}/market_attribute.mat')['market_attribute']
     newM = np.zeros((27,1502))
     for i in range(751):
         m = mat[0][0][1][0][0]
@@ -164,22 +200,44 @@ def read_attributes():
 
 if __name__=='__main__':
     os.makedirs(f'{data_path}/feature', exist_ok=True)
-    # rgb imges
-    train_photo, train_label = read_imgs_single(files_rgb, f'{data_path}/photo/train')
-    np.save(f'{data_path}/feature/train_rgb_img.npy', train_photo)
-    np.save(f'{data_path}/feature/train_rgb_label.npy', train_label)
+    if args.dataset=='mask1k':
+        # rgb imges
+        train_photo, train_label = read_imgs_single(files_rgb, f'{data_path}/photo/train')
+        np.save(f'{data_path}/feature/train_rgb_img.npy', train_photo)
+        np.save(f'{data_path}/feature/train_rgb_label.npy', train_label)
 
-    # sketches
-    if len(args.train_style)==1 or not args.train_mq:
-        train_sketch, train_label = read_sketches_single(files_sk, data_path)
-        np.save(f'{data_path}/feature/train_sk_img_{args.train_style}.npy', train_sketch)
-        np.save(f'{data_path}/feature/train_sk_label_{args.train_style}.npy', train_label)
-    elif len(args.train_style)>1:
-        train_sketch, train_label, train_style = read_sketch_multi(files_sk, f'{data_path}')
-        np.save(f'{data_path}/feature/train_sk_img_{args.train_style}.npy', train_sketch)
-        np.save(f'{data_path}/feature/train_sk_label_{args.train_style}.npy', train_label)
-        np.save(f'{data_path}/feature/train_sk_numStyle_{args.train_style}.npy', train_style)
-    
-    # attributes
-    attributes = read_attributes()
-    savemat(f'{data_path}/market_attribute_train.mat', {'data':attributes.astype(int)})
+        # sketches
+        if len(args.train_style)==1 or not args.train_mq:
+            train_sketch, train_label = read_sketches_single(files_sk, data_path)
+            np.save(f'{data_path}/feature/train_sk_img_{args.train_style}.npy', train_sketch)
+            np.save(f'{data_path}/feature/train_sk_label_{args.train_style}.npy', train_label)
+        elif len(args.train_style)>1:
+            train_sketch, train_label, train_style = read_sketch_multi(files_sk, f'{data_path}')
+            np.save(f'{data_path}/feature/train_sk_img_{args.train_style}.npy', train_sketch)
+            np.save(f'{data_path}/feature/train_sk_label_{args.train_style}.npy', train_label)
+            np.save(f'{data_path}/feature/train_sk_numStyle_{args.train_style}.npy', train_style)
+        
+        # attributes
+        attributes = read_attributes()
+        savemat(f'{data_path}/market_attribute_train.mat', {'data':attributes.astype(int)})
+    elif args.dataset=='pku':
+        # photos
+        train_img, train_label = read_imgs_pku(files_rgb, data_path+'/photo/train', 'photo')
+        np.save(data_path + '/feature/train_rgb_img.npy', train_img)
+        np.save(data_path + '/feature/train_rgb_label.npy', train_label)
+
+        # sketches
+        train_img, train_label = read_imgs_pku(files_sk, data_path+'/sketch/train', 'sketch')
+        np.save(data_path + '/feature/train_sk_img.npy', train_img)
+        np.save(data_path + '/feature/train_sk_label.npy', train_label)
+
+        # attributes
+        file_attr = data_path + '/PKU_attribute.mat'
+        save_attr = data_path + '/PKU_attribute_train.mat'
+        f = loadmat(file_attr)
+        f = np.transpose(np.array(f['AttributeA'], dtype='float32'))
+        train_attr = np.zeros((len(pid2label), 27))
+        for id, lbl in pid2label.items():
+            train_attr[lbl] = f[id-1]
+            
+        savemat(save_attr, {'data':train_attr.astype(int)})
