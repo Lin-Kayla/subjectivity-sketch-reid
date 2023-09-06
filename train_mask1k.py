@@ -127,7 +127,7 @@ else:
     trainset = Mask1kData_single(data_path, args.train_style, transform=transform_train)
 
 # generate the idx of each person identity
-color_pos, thermal_pos = GenIdx(trainset.train_color_label, trainset.train_thermal_label)
+color_pos, thermal_pos = GenIdx(trainset.train_color_label, trainset.train_sketch_label)
 
 # testing set
 if len(args.test_style) == 1:
@@ -159,7 +159,7 @@ print('  ------------------------------')
 print('  subset   | # ids | # images')
 print('  ------------------------------')
 print('  visible  | {:5d} | {:8d}'.format(n_class, len(trainset.train_color_label)))
-print('  sketch  | {:5d} | {:8d}'.format(n_class, len(trainset.train_thermal_label)))
+print('  sketch  | {:5d} | {:8d}'.format(n_class, len(trainset.train_sketch_label)))
 print('  ------------------------------')
 print('  query    | {:5d} | {:8d}'.format(len(np.unique(query_label)), nquery))
 print('  gallery  | {:5d} | {:8d}'.format(len(np.unique(gall_label)), ngall))
@@ -453,7 +453,7 @@ if __name__ == '__main__':
         print('==> Preparing Data Loader...')
         # identity sampler
         sampler = IdentitySampler(trainset.train_color_label, \
-                                trainset.train_thermal_label, color_pos, thermal_pos, args.num_pos, args.batch_size,
+                                trainset.train_sketch_label, color_pos, thermal_pos, args.num_pos, args.batch_size,
                                 epoch)
 
         trainset.cIndex = sampler.index1  # color index
