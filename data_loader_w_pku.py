@@ -87,6 +87,44 @@ class Mask1kData_multi(data.Dataset):
     def __len__(self):
         return len(self.train_color_label)
   
+class PKUDataAttr(data.Dataset):
+    def __init__(self, data_dir,  transform=None, colorIndex = None, thermalIndex = None):
+        
+        # Load training images (path) and labels
+        train_color_image = np.load(os.path.join(data_dir,'feature', 'train_rgb_img.npy'))
+        self.train_color_label = np.load(os.path.join(data_dir, 'feature', 'train_rgb_label.npy'))
+
+        train_sketch_image = np.load(os.path.join(data_dir, 'feature', 'train_sk_img.npy'))
+        self.train_sketch_label = np.load(os.path.join(data_dir, 'feature', 'train_sk_label.npy'))
+        
+        self.attribute= loadmat(os.path.join(data_dir, 'PKU_attribute_train.mat'))['data']
+        
+        self.train_color_image   = train_color_image
+        self.train_sketch_image = train_sketch_image
+        self.transform = transform
+        self.cIndex = colorIndex
+        self.tIndex = thermalIndex
+
+    def __getitem__(self, index):
+
+        img1,  target1 = self.train_color_image[self.cIndex[index]],  self.train_color_label[self.cIndex[index]]
+        img2,  target2 = self.train_sketch_image[self.tIndex[index]], self.train_sketch_label[self.tIndex[index]]
+        
+        img1 = self.transform(img1)
+        img2 = self.transform(img2)
+
+
+        # m = self.attribute[target2]
+        text1 = get_textInput(self.attribute[target1])
+        text1 = clip.tokenize(text1).detach().int().squeeze(0)
+        text2 = get_textInput(self.attribute[target2])
+        text2 = clip.tokenize(text2).detach().int().squeeze(0)
+
+        return img1, img2, text1, text2, target1, target2 
+
+    def __len__(self):
+        return len(self.train_color_label)
+
 class TestData(data.Dataset):
     def __init__(self, test_img_file, test_label, transform=None, img_size = (144,288)):
         test_image = []
