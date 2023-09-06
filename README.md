@@ -39,10 +39,11 @@ python train.py --train_style <train_style> --test_style <test_style> [--train_m
 
 ### Evaluation
 ```python
-python test.py --train_style <train_style> --test_style <test_style> -r <> [--test-mq]
+python test.py --train_style <train_style> --test_style <test_style> --resume <model_filename> [--test-mq]
 ```
  - `<train_style>` should be replaced with the styles you used for your training.
  - `<test_style>` should be replaced with the styles you want to use for your testing.
+ - `<model_filename>` should be the filename of your trained model.
  - `[--test_mq]` argument is used for enabling multi-query during testing.
 
 ## Acknowledgements
