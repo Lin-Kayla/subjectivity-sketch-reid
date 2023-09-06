@@ -17,7 +17,7 @@ Our annotated attributes for PKU-Sketch is available <a href="">here</a>.
 
 Download the dataset and PKU-Sketch attributes into your \<data_root\>.
 
-Download the dataset and Market1501 attributes from <a href="">here</a>, and put it into your <attribute_root>.
+Download the dataset and Market1501 attributes from <a href="">here</a>, and put it into your <data_root>.
 
 ## Guide For Market-Sketch-1K
 ### requirements
