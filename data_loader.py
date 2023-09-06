@@ -12,18 +12,18 @@ import clip
 class Mask1kData_single(data.Dataset):
     def __init__(self, data_dir, train_style, transform=None, colorIndex = None, thermalIndex = None):
         
-        self.attribute = loadmat(data_dir + 'market_attribute_train' + '.mat')['data']
+        self.attribute = loadmat(os.path.join(data_dir, 'market_attribute_train.mat'))['data']
 
         # Load training images (path) and labels
-        train_color_image = np.load(data_dir + 'feature/train_rgb_img.npy')
-        self.train_color_label = np.load(data_dir + 'feature/train_rgb_label.npy')
+        train_color_image = np.load(os.path.join(data_dir, 'feature', 'train_rgb_img.npy'))
+        self.train_color_label = np.load(os.path.join(data_dir, 'feature', 'train_rgb_label.npy'))
 
-        train_thermal_image = np.load(data_dir + 'feature/train_sk_img_' + train_style + '.npy')
-        self.train_thermal_label = np.load(data_dir + 'feature/train_sk_label_' + train_style + '.npy')
+        train_sketch_image = np.load(os.path.join(data_dir, 'feature', 'train_sk_img_' + train_style + '.npy'))
+        self.train_sketch_label = np.load(os.path.join(data_dir, 'feature', 'train_sk_label_' + train_style + '.npy'))
         
         # BGR to RGB
         self.train_color_image   = train_color_image
-        self.train_thermal_image = train_thermal_image
+        self.train_sketch_image = train_sketch_image
         self.transform = transform
         self.cIndex = colorIndex
         self.tIndex = thermalIndex
@@ -31,7 +31,7 @@ class Mask1kData_single(data.Dataset):
     def __getitem__(self, index):
 
         img1,  target1 = self.train_color_image[self.cIndex[index]],  self.train_color_label[self.cIndex[index]]
-        img2,  target2 = self.train_thermal_image[self.tIndex[index]], self.train_thermal_label[self.tIndex[index]]
+        img2,  target2 = self.train_sketch_image[self.tIndex[index]], self.train_sketch_label[self.tIndex[index]]
         
         img1 = self.transform(img1)
         img2 = self.transform(img2)
@@ -49,20 +49,20 @@ class Mask1kData_single(data.Dataset):
 class Mask1kData_multi(data.Dataset):
     def __init__(self, data_dir, train_style, transform=None, colorIndex = None, thermalIndex = None):
         
-        self.attribute = loadmat(data_dir + 'market_attribute_train.mat')['data']
+        self.attribute = loadmat(os.path.join(data_dir, 'market_attribute_train.mat'))['data']
 
         # Load training images (path) and labels
-        train_color_image = np.load(data_dir + 'feature/train_rgb_img.npy')
-        self.train_color_label = np.load(data_dir + 'feature/train_rgb_label.npy')
+        train_color_image = np.load(os.path.join(data_dir, 'feature', 'train_rgb_img.npy'))
+        self.train_color_label = np.load(os.path.join(data_dir, 'feature', 'train_rgb_label.npy'))
 
-        train_thermal_image = np.load(data_dir + 'feature/train_sk_img_'+ train_style +'.npy')
-        self.train_thermal_label = np.load(data_dir + 'feature/train_sk_label_'+ train_style +'.npy')
+        train_sketch_image = np.load(os.path.join(data_dir, 'feature', 'train_sk_img_'+ train_style +'.npy'))
+        self.train_sketch_label = np.load(os.path.join(data_dir, 'feature', 'train_sk_label_'+ train_style +'.npy'))
 
-        self.train_thermal_style = np.load(data_dir + 'feature/train_sk_numStyle_'+ train_style +'.npy')
+        self.train_sketch_style = np.load(os.path.join(data_dir, 'feature', 'train_sk_numStyle_'+ train_style +'.npy'))
         
         # BGR to RGB
         self.train_color_image   = train_color_image
-        self.train_thermal_image = train_thermal_image
+        self.train_sketch_image = train_sketch_image
         self.transform = transform
         self.cIndex = colorIndex
         self.tIndex = thermalIndex
@@ -70,7 +70,7 @@ class Mask1kData_multi(data.Dataset):
     def __getitem__(self, index):
 
         img1,  target1 = self.train_color_image[self.cIndex[index]],  self.train_color_label[self.cIndex[index]]
-        img2,  target2 = self.train_thermal_image[self.tIndex[index]], self.train_thermal_label[self.tIndex[index]]
+        img2,  target2 = self.train_sketch_image[self.tIndex[index]], self.train_sketch_label[self.tIndex[index]]
         
         img1 = self.transform(img1)
         img2 = torch.stack([self.transform(img) for img in img2],0)
@@ -80,7 +80,7 @@ class Mask1kData_multi(data.Dataset):
         text2 = get_textInput(self.attribute[target2])
         text2 = clip.tokenize(text2).detach().int().squeeze(0)
 
-        style = self.train_thermal_style[self.tIndex[index]]
+        style = self.train_sketch_style[self.tIndex[index]]
 
         return img1, img2, text1, text2, target1, target2, style
 
@@ -90,18 +90,17 @@ class Mask1kData_multi(data.Dataset):
 class PKUDataAttr(data.Dataset):
     def __init__(self, data_dir,  transform=None, colorIndex = None, thermalIndex = None):
         
-        data_dir = '../Datasets/pku/'
         # Load training images (path) and labels
-        train_color_image = np.load(data_dir + 'train_rgb_resized_img.npy')
-        self.train_color_label = np.load(data_dir + 'train_rgb_resized_label.npy')
+        train_color_image = np.load(os.path.join(data_dir, 'train_rgb_resized_img.npy'))
+        self.train_color_label = np.load(os.path.join(data_dir, 'train_rgb_resized_label.npy'))
 
-        train_thermal_image = np.load(data_dir + 'train_ir_resized_img.npy')
-        self.train_thermal_label = np.load(data_dir + 'train_ir_resized_label.npy')
+        train_sketch_image = np.load(os.path.join(data_dir, 'train_ir_resized_img.npy'))
+        self.train_sketch_label = np.load(os.path.join(data_dir, 'train_ir_resized_label.npy'))
         
-        self.attribute= loadmat(data_dir + 'PKU_attribute_train.mat')['data']
+        self.attribute= loadmat(os.path.join(data_dir, 'PKU_attribute_train.mat'))['data']
         
         self.train_color_image   = train_color_image
-        self.train_thermal_image = train_thermal_image
+        self.train_sketch_image = train_sketch_image
         self.transform = transform
         self.cIndex = colorIndex
         self.tIndex = thermalIndex
@@ -109,7 +108,7 @@ class PKUDataAttr(data.Dataset):
     def __getitem__(self, index):
 
         img1,  target1 = self.train_color_image[self.cIndex[index]],  self.train_color_label[self.cIndex[index]]
-        img2,  target2 = self.train_thermal_image[self.tIndex[index]], self.train_thermal_label[self.tIndex[index]]
+        img2,  target2 = self.train_sketch_image[self.tIndex[index]], self.train_sketch_label[self.tIndex[index]]
         
         img1 = self.transform(img1)
         img2 = self.transform(img2)
@@ -120,17 +119,8 @@ class PKUDataAttr(data.Dataset):
         text1 = clip.tokenize(text1).detach().int().squeeze(0)
         text2 = get_textInput(self.attribute[target2])
         text2 = clip.tokenize(text2).detach().int().squeeze(0)
-        # m = m.unsqueeze(0)
 
-        # img2 = torch.stack( (torch.cat((img2[0],m),0), torch.cat((img2[1],m),0), torch.cat((img2[2],m),0)) ,0)
-        
-        # for i in (0,1,2):
-        #     #img2[i][-1][-108:-81] = self.attribute[target2]
-        #     #img2[i][-1][-81:-54] = self.attribute1[target2]
-        #     #img2[i][-1][-54:-27] = self.attribute2[target2]
-        #     img2[i][-1][-27:] = self.attribute[target2]
-
-        return img1, img2, text1, text2, target1, target2 #, self.attribute3[target2] #, torch.cat((self.attribute[target2], self.attribute1[target2], self.attribute2[target2], self.attribute3[target2]), 0)
+        return img1, img2, text1, text2, target1, target2 
 
     def __len__(self):
         return len(self.train_color_label)
