@@ -22,11 +22,10 @@ pip install -r requirements.txt
 
 ### preprocess
 ```python
-python preprocess.py --data_path=<data_path> --attribute_path=<attribute_path> --train_style <train_style> [--train_mq]
+python preprocess.py --data_path=<data_path> --train_style <train_style> [--train_mq]
 ```
 
  - `<data_path>` should be replaced with the path to your data.
- - `<attribute_path>` should point to the attribute data.
  - `<train_style>` refers to the styles you want to include in your training set. You can use any combination of styles A-F, such as B, AC, CEF, and so on.
 -  `[--train_mq]` argument is optional and can be used to enable multi-query during training.
 
