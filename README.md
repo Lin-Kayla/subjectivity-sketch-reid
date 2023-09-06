@@ -45,11 +45,12 @@ python train.py --train_style <train_style> --test_style <test_style> [--train_m
  - `[--train_mq]` argument is used for enabling multi-query during training, and `[--test_mq]` serves a similar purpose during testing.
 
 ### Evaluation
-TODO
-<!-- ```python -->
-<!--  python test.py [] -->
-<!-- ``` -->
-
+```python
+python test.py --train_style <train_style> --test_style <test_style> -r <> [--test-mq]
+```
+ - `<train_style>` should be replaced with the styles you used for your training.
+ - `<test_style>` should be replaced with the styles you want to use for your testing.
+ - `[--test_mq]` argument is used for enabling multi-query during testing.
 
 ## Acknowledgements
 TODO

@@ -33,7 +33,6 @@ parser.add_argument('--save_epoch', default=1, type=int,
                     metavar='s', help='save model every 10 epochs')
 parser.add_argument('--resume', '-r', default='', type=str,
                     help='resume from checkpoint')
-parser.add_argument('--test-only', action='store_true', help='test only')
 parser.add_argument('--seed', default=0, type=int,
                     metavar='t', help='random seed')
 parser.add_argument('--batch-size', default=8, type=int,
@@ -89,7 +88,7 @@ if not os.path.isdir(checkpoint_path):
 if not os.path.isdir(args.vis_log_path):
     os.makedirs(args.vis_log_path)
 
-suffix = f'{args.dataset}_p{args.num_pos}_n{args.batch_size}_lr_{args.lr}_seed_{args.seed}_{args.optim}'
+suffix = f'{args.dataset}_{args.train_style}{"_mq" if args.train_mq else ""}_{args.test_style}{"_mq" if args.test_mq else ""}'
 sys.stdout = Logger(log_path + suffix + '_os.txt')
 vis_log_dir = args.vis_log_path + suffix + '/'
 os.makedirs(vis_log_dir, exist_ok=True)
