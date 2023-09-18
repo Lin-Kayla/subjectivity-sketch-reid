@@ -58,7 +58,6 @@ If you find our work helpful, please consider citing our work using the followin
       title={Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based Person Retrieval}, 
       author={Kejun Lin, Zhixiang Wang, Zheng Wang, Yinqiang Zheng, Shin'ichi Satoh},
       year={2023},
-      eprint={2309.08372},
-      journal={arXiv}
+      journal={arXiv preprint arXiv:2309.08372}
 }
 ```
