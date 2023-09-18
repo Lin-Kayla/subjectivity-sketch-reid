@@ -52,10 +52,13 @@ python test.py --train_style <train_style> --test_style <test_style> --resume <m
 Our code was build on the amazing codebase <a href="https://github.com/mangye16/Cross-Modal-Re-ID-baseline.git">Cross-modal-Re-ID</a> and <a href="https://github.com/cvlab-yonsei/LbA.git">CMAlign</a> and <a href="https://github.com/openai/CLIP.git">CLIP</a>. 
 
 ## Citation
-TODO
 If you find our work helpful, please consider citing our work using the following bibtex.
 ```
-@article{
-    author=...
+@article{lin2023subjectivity,
+      title={Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based Person Retrieval}, 
+      author={Kejun Lin, Zhixiang Wang, Zheng Wang, Yinqiang Zheng, Shin'ichi Satoh},
+      year={2023},
+      eprint={2309.08372},
+      journal={arXiv}
 }
 ```
