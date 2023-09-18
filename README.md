@@ -54,10 +54,10 @@ Our code was build on the amazing codebase <a href="https://github.com/mangye16/
 ## Citation
 If you find our work helpful, please consider citing our work using the following bibtex.
 ```
-@article{lin2023subjectivity,
-      title={Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based Person Retrieval}, 
-      author={Kejun Lin, Zhixiang Wang, Zheng Wang, Yinqiang Zheng, Shin'ichi Satoh},
-      year={2023},
-      journal={arXiv preprint arXiv:2309.08372}
+@inproceedings{lin2023subjectivity,
+  title={Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based Person Retrieval},
+  author={Lin, Kejun  and  Wang, Zhixiang  and  Wang, Zheng  and  Zheng, Yinqiang and  Satoh, Shin'ichi},
+  booktitle={ACM Multimedia},
+  year={2023},
 }
 ```
