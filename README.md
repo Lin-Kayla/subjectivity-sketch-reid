@@ -4,6 +4,9 @@
 </p>
 <p align="center">Accepted to ACMMM2023
 </p>
+<p align="center">
+[<a href="https://arxiv.org/pdf/2309.08372v1">📄 Paper</a>]
+</p>
 
 <div align="center">
 <img src="./assets/teaser.jpg" width=300px alt="teaser"></image>
