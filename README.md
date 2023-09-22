@@ -29,6 +29,11 @@ This work is licensed under a
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
 
 ## Guide For Market-Sketch-1K
+
+<div align="center">
+<img src="./assets/architecture_v4.jpg" width=400px alt="architecture"></image>
+</div>
+
 ### requirements
 download the necessary dependencies using cmd.
 ```bash
