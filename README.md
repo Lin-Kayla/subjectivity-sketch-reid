@@ -31,7 +31,7 @@ This work is licensed under a
 ## Guide For Market-Sketch-1K
 
 <div align="center">
-<img src="./assets/architecture_v4.jpg" width=400px alt="architecture"></image>
+<img src="./assets/architecture_v4.jpg" width=600px alt="architecture"></image>
 </div>
 
 ### requirements
