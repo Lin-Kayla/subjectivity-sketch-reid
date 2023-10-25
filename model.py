@@ -171,7 +171,7 @@ class CMAlign_mask(nn.Module):
         norms /= norms.max(dim=-1, keepdim=True)[0] + 1e-12
         mask = norms.view(batch_size, 1, h, w)
 
-        return mask
+        return mask.detach()
 
     def compute_comask(self, matching_pr, mask_q, mask_k):
         batch_size, mdim, h, w = mask_q.shape
@@ -211,11 +211,11 @@ class CMAlign_mask(nn.Module):
         feat_warp = self.soft_warping(matching_pr, feat_target_neg)
         feat_recon_neg = self.reconstruct(mask, feat_warp, feat)
 
-        # feat = feat.permute(0,2,3,1)
-        # feat_recon_neg = feat_recon_neg.permute(0,2,3,1)
-        # feat_recon_pos_ = feat_recon_pos.permute(0,2,3,1)
+        feat = feat.permute(0,2,3,1)
+        feat_recon_neg = feat_recon_neg.permute(0,2,3,1)
+        feat_recon_pos_ = feat_recon_pos.permute(0,2,3,1)
 
-        loss = torch.mean(comask_pos.squeeze(1) * self.criterion(feat, feat_recon_pos, feat_recon_neg))
+        loss = torch.mean(comask_pos.squeeze(1) * self.criterion(feat, feat_recon_pos_, feat_recon_neg))
 
         return {'feat': feat_recon_pos, 'loss': loss}
 
