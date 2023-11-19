@@ -5,16 +5,6 @@
 <p align="center">Accepted to ACMMM2023
 </p>
 
-<<<<<<< HEAD
-This is the official respository of paper "Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based
-Person Retrieval".
-
-## Dataset
-
-The dataset is available at: https://drive.google.com/drive/folders/1XjFPM1yVHpE38sSDTFgM5s9aX2r-oYRC?usp=sharing
-
-## requirements
-=======
 <div align="center">
 
 [![arXiv](https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg)](https://arxiv.org/pdf/2309.08372v1)
@@ -26,6 +16,9 @@ The dataset is available at: https://drive.google.com/drive/folders/1XjFPM1yVHpE
 <img src="./assets/teaser.jpg" width=300px alt="teaser"></image>
 </div>
 
+This is the official respository of paper "Beyond Domain Gap: Exploiting Subjectivity in Sketch-Based
+Person Retrieval".
+
 ## Dataset
 
 Our proposed MaSk1K (Short for <u>Ma</u>rket-<u>Sk</u>etch-<u>1K</u>) dataset is available <a href="https://drive.google.com/drive/folders/1XjFPM1yVHpE38sSDTFgM5s9aX2r-oYRC?usp=sharing">here</a>.
@@ -34,6 +27,8 @@ Download the dataset and Market1501 attributes from <a href="https://github.com/
 
 This work is licensed under a
 [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+Update: 1) There's a minor typo in the dataset statistics in the paper--style F has 497 sketches for training and 493 for testing; 2) All our experiments are performed using a selected subset of photos as in the Google Drive above. If you wish to experiment on the entire photo set, please download the Market-1501 dataset.
 
 [cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
 [cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
@@ -66,7 +61,6 @@ python train.py --train_style <train_style> --test_style <test_style> [--train_m
 
  - `<train_style>` and `<test_style>` should be replaced with the styles you want to use for your training and testing sets, respectively. Just like in the preprocessing step, you can use any combination of styles A-F.
  - `[--train_mq]` argument is used for enabling multi-query during training, and `[--test_mq]` serves a similar purpose during testing.
->>>>>>> 8c9a7e50373faa3000248d9054836246860955d7
 
 ### Evaluation
 ```python
